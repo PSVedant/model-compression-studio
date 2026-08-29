@@ -153,5 +153,10 @@ with gr.Blocks(title="Model Compression Studio") as demo:
                 "ONNX: same accuracy as baseline, -54.8% latency from graph optimization.*"
             )
 
+
 if __name__ == "__main__":
-    demo.launch(css=CUSTOM_CSS)
+    demo.launch(
+        css=CUSTOM_CSS,
+        server_name="0.0.0.0",
+        server_port=int(os.environ.get("PORT", 7860)),
+    )
