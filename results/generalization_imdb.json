@@ -1,0 +1,16 @@
+{
+  "dataset": "imdb_test_200_sample",
+  "note": "Out-of-domain check: model fine-tuned on SST-2 (short phrases), tested on IMDB (long-form reviews, truncated to 128 tokens)",
+  "baseline_fp32": {
+    "sst2_accuracy": 0.9243,
+    "imdb_accuracy": 0.84
+  },
+  "quantized_int8": {
+    "sst2_accuracy": 0.9071,
+    "imdb_accuracy": 0.85
+  },
+  "onnx_fp32": {
+    "sst2_accuracy": 0.9243,
+    "imdb_accuracy": 0.84
+  }
+}

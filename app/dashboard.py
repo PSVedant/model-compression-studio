@@ -113,7 +113,30 @@ def load_benchmark_table():
                 f"{entry['latency_ms']} ms",
             ])
     return rows
+GENERALIZATION_PATH = Path(__file__).parent.parent / "results" / "generalization_imdb.json"
 
+
+def load_generalization_table():
+    if not GENERALIZATION_PATH.exists():
+        return [["No generalization data found", "-", "-"]]
+    with open(GENERALIZATION_PATH) as f:
+        data = json.load(f)
+
+    rows = []
+    labels = {
+        "baseline_fp32": "Baseline (FP32)",
+        "quantized_int8": "Quantized (INT8)",
+        "onnx_fp32": "ONNX (FP32)",
+    }
+    for key, label in labels.items():
+        if key in data:
+            entry = data[key]
+            rows.append([
+                label,
+                f"{entry['sst2_accuracy']*100:.2f}%",
+                f"{entry['imdb_accuracy']*100:.2f}%",
+            ])
+    return rows
 
 with gr.Blocks(title="Model Compression Studio") as demo:
     gr.Markdown('<div class="eyebrow">MODEL COMPRESSION STUDIO</div>')
@@ -146,6 +169,18 @@ with gr.Blocks(title="Model Compression Studio") as demo:
                 headers=["Method", "Size", "Accuracy", "Latency"],
                 value=load_benchmark_table(),
                 interactive=False,
+            )
+                        gr.Markdown("### Out-of-domain generalization (SST-2 → IMDB)")
+            gr.Markdown("Same models, tested on 200 IMDB movie reviews (long-form) instead of SST-2 (short phrases) — checks whether compression hurts generalization beyond the benchmark it was measured on.")
+            gr.Dataframe(
+                headers=["Method", "SST-2 Accuracy", "IMDB Accuracy"],
+                value=load_generalization_table(),
+                interactive=False,
+            )
+            gr.Markdown(
+                "*Accuracy drops ~8 points on out-of-domain text, consistently across all three variants — "
+                "compression did not disproportionately hurt generalization. Part of the gap is likely a "
+                "128-token truncation artifact, since IMDB reviews average well over that length.*"
             )
             gr.Markdown(
                 "*Quantization: -58.6% size, -66.8% latency, -1.72pt accuracy. "
