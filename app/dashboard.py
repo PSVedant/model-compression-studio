@@ -113,6 +113,7 @@ def load_benchmark_table():
                 f"{entry['latency_ms']} ms",
             ])
     return rows
+
 GENERALIZATION_PATH = Path(__file__).parent.parent / "results" / "generalization_imdb.json"
 
 
@@ -170,7 +171,7 @@ with gr.Blocks(title="Model Compression Studio") as demo:
                 value=load_benchmark_table(),
                 interactive=False,
             )
-                        gr.Markdown("### Out-of-domain generalization (SST-2 → IMDB)")
+            gr.Markdown("### Out-of-domain generalization (SST-2 → IMDB)")
             gr.Markdown("Same models, tested on 200 IMDB movie reviews (long-form) instead of SST-2 (short phrases) — checks whether compression hurts generalization beyond the benchmark it was measured on.")
             gr.Dataframe(
                 headers=["Method", "SST-2 Accuracy", "IMDB Accuracy"],
