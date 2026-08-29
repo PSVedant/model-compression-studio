@@ -1,0 +1,26 @@
+{
+  "baseline_fp32": {
+    "size_mb": 418.35,
+    "accuracy_full_872": 0.9243,
+    "accuracy_200_sample": 0.915,
+    "latency_ms": 158.42
+  },
+  "quantized_int8": {
+    "size_mb": 173.09,
+    "accuracy_full_872": 0.9071,
+    "accuracy_200_sample": 0.905,
+    "latency_ms": 52.59
+  },
+  "pruned_l1_30pct": {
+    "size_mb": 417.72,
+    "accuracy_full_872": 0.9128,
+    "accuracy_200_sample": 0.915,
+    "latency_ms": 110.55
+  },
+  "onnx_fp32": {
+    "size_mb": 419.09,
+    "accuracy_full_872": 0.9243,
+    "accuracy_200_sample": 0.915,
+    "latency_ms": 71.69
+  }
+}
